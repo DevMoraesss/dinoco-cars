@@ -13,3 +13,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Vehicle {
+  id           String @id @default(cuid())
+  licensePlate String @unique
+  brand        String // A marca, ex: Volkswagen
+  model        String // O modelo, ex: Gol
+  year         String // O ano de fabricação
+  kilometers   Int // A quilometragem
+  price        Float // O preço de venda
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
