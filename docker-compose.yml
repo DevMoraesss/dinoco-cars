@@ -1,0 +1,30 @@
+# A versão do docker-compose que estamos usando. É como a versão de uma receita.
+version: '3.8'
+
+# Aqui listamos todos os "serviços" ou "contêineres" que nosso projeto precisa.
+services:
+  # Este é o nome que damos ao nosso serviço de banco de dados.
+  postgres_db:
+    # A "imagem" é o molde do nosso contêiner. Aqui estamos dizendo: "use o molde oficial do PostgreSQL na versão 15".
+    image: postgres:15
+    # Garante que o contêiner inicie automaticamente se o computador for reiniciado.
+    restart: always
+    # Aqui configuramos as variáveis de ambiente DENTRO do contêiner.
+    environment:
+      POSTGRES_USER: admin_dinoco
+      POSTGRES_PASSWORD: adminSenhaD1noc0123123
+      POSTGRES_DB: dinocoCars_db
+    # Esta é a parte mais importante: o "mapeamento de portas".
+    # "5432:5432" significa: conecte a porta 5432 da minha máquina (a primeira)
+    # com a porta 5432 de DENTRO do contêiner (a segunda), que é a porta padrão do Postgres.
+    ports:
+      - "5432:5432"
+    # Isso garante que os dados do banco não sejam perdidos se o contêiner for removido.
+    # Ele cria uma "pasta gerenciada" pelo Docker chamada 'postgres_data' e a conecta
+    # ao local onde o Postgres salva seus dados dentro do contêiner.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# Aqui definimos os volumes que queremos que o Docker gerencie para nós.
+volumes:
+  postgres_data:
